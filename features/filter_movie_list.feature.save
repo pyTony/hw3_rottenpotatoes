@@ -17,27 +17,24 @@ Background: movies have been added to database
   | 2001: A Space Odyssey   | G      | 6-Apr-1968   |
   | The Incredibles         | PG     | 5-Nov-2004   |
   | Raiders of the Lost Ark | PG     | 12-Jun-1981  |
-  | Chicken Run             | G      | 21-Jun-2000  |
+  | Chicken Run  steps %Q{
+             | G      | 21-Jun-2000  |
 
-  And  I am on the RottenPotatoes home page
+  And  I am on Home page
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
-  Given I am on the RottenPotatoes home page
-  And I unselect rating 'PG-13', 'G'
-  # enter step(s) to check the 'PG' and 'R' checkboxes
-  And select rating 'PG', 'R'
-
+  When I select movies with ratings: 'PG', 'R' 
   # enter step to "submit" the search form on the homepage
-  When I press "Submit"
-  Then I should see movies: "The Terminator", "When Harry Met Sally", "Amelie", "The Incredibles", "Raiders of the Lost Ark"
+  And I press "Submit"
+  # enter step(s) to ensure that PG and R movies are visible
+  Then I should see movies with rating 'PG', 'R'
   # enter step(s) to ensure that other movies are not visible
-  Then I should not see movies: "Aladdin", "The Help", "Chocolat", "Amelie", "2001: A Space Odyssey", "Chicken Run"
+  And I should not see movies 
 
 Scenario: no ratings selected
   # see assignment
+  Given I am on the Home page
+  Whe
 
 Scenario: all ratings selected
-  # see assignment
-  Given I am on the RottenPotatoes home page
-  And Selected ratings are: 'G', 'R', 'PG', 'PG-13'
-  Then I should see movies: "The Terminator", "When Harry Met Sally", "Amelie", "The Incredibles", "Raiders of the Lost Ark", "Aladdin", "The Help", "Chocolat", "Amelie", "2001: A Space Odyssey", "Chicken Run"
+  Then I see movies with ratings: 'G', 'R', 'PG', 'PG-13'
